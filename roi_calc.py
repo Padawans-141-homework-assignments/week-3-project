@@ -187,8 +187,11 @@ class returnOnInvestment():
             return self.expenses
 
 
+    #responsible for calculating the cash flow
     def cash_flow(self):
-        pass
+        self.cash_flow = self.income - self.expenses
+        print(f'\nYour total cash flow from your current invesment is: {self.cash_flow}.')
+        return self.cash_flow
 
     def roi(self):
         pass
@@ -196,6 +199,7 @@ class returnOnInvestment():
     def runROI(self):
         self.income()
         self.expenses()
+        self.cash_flow()
 
 calc = returnOnInvestment()
 

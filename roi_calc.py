@@ -1,40 +1,3 @@
-#Income method
-
-#1. Ask what the customers rental income is. 
-#2. Ask if the property is a duplex. If it is, multiply the rent by 2x.
-#(OPTIONAL) ask for laundry, storage, and misc income.
-#3. Sum the Total monthly income.
-
-#11. Ask them if they pay or the landlord pays for the (Utilities, HOA fees, lawn/snow care fees,vacancy fees[if its the landlord take 5% off rental income as vacancy])
-#3. Ask about the utilities (Electric, Water, Sewer, Garbage, Gas)
-#4. Ask about the HOA fees
-#5. Ask about the lawn/snow care expenses. 
-#6. Ask about the vacancy fees
-#12. Ask them if they have a property manager (If not then don't charge them)
-#9. Ask about the property management.
-#10. Ask for mortgage (if they aren't paying with cash).
-#13. Ask them the cost of their current mortgage.    
-#Expenses method
-#1. Ask what the property tax is.
-#2. Ask what the insurance is. 
-#7. Ask about the reapir fees.
-#8. Ask about the capital expenditures. 
-#14. Sum all the monthly expenses. 
-
-#Cash Flow method
-#Cash flow is: Income - Expenses
-
-#return on investment method
-#1. Ask what the cost of the down payment is
-#2. Ask what the closing costs are
-#3. Ask for the Rehab budget.
-#4. Sum all for total investment
-#5. multiply cashflow by 12 for annual total cashflow.
-#6. ROI is equals to (annual cash flow / total investment) multiplied by 100.
-
-
-
-
 class returnOnInvestment():
     def __init__(self,pay_w_cash = None, ren_income = 0, income = 0, expenses = 0, cash_flow = 0):
         self.pay_w_cash = pay_w_cash
@@ -116,7 +79,7 @@ class returnOnInvestment():
         print('\nHow much do you spend on house insurance')
         insurance_amt = self.money_confirm()
 
-        print('\nDo you pay for your utilities, HOA fees, lawn/snow care feese, vacancy fees')
+        print('\nDo you pay for your utilities, HOA fees, lawn/snow care fees, vacancy fees')
         pays_utilities = self.yn_confirm()
         if pays_utilities:
             print('\nHow much do you spend on all of the above collectively')
@@ -208,10 +171,10 @@ class returnOnInvestment():
         rehab_budget = self.money_confirm()
 
         total_investment = down_payment + closing_cost + rehab_budget
-        print(f'\nThis is the total investment of the home: {total_investment}.')
+        print(f'\nThis is the total investment of the home: ${total_investment}.')
 
         annual_cashflow = self.cash_flow * 12
-        print(f'\nThis is the annual cash flow of the home: {annual_cashflow}')
+        print(f'\nThis is the annual cash flow of the home: ${annual_cashflow}')
 
         total_roi = (annual_cashflow / total_investment) * 100
         print(f'\nThe total Return On Investment for the current property is {round(total_roi, 2)}%.')

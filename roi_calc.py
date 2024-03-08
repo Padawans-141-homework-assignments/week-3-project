@@ -30,14 +30,15 @@
 #3. Ask for the Rehab budget.
 #4. Sum all for total investment
 #5. multiply cashflow by 12 for annual total cashflow.
-#6. ROI is equals to (annual cash flow / total investment) multiplied by 100. 
+#6. ROI is equals to (annual cash flow / total investment) multiplied by 100.
 
 
 
 
 class returnOnInvestment():
     def __init__(self,pay_w_cash = None, ren_income = 0, income = 0, expenses = 0, cash_flow = 0):
-        pass
+        self.pay_w_cash = pay_w_cash
+        self.ren_income = ren_income
 
     #handles the y/n confirmations
     def yn_confirm(self):
@@ -190,16 +191,41 @@ class returnOnInvestment():
     #responsible for calculating the cash flow
     def cash_flow(self):
         self.cash_flow = self.income - self.expenses
-        print(f'\nYour total cash flow from your current invesment is: {self.cash_flow}.')
+        print(f'\nYour total cash flow from your current invesment is: ${self.cash_flow}.')
         return self.cash_flow
 
-    def roi(self):
-        pass
 
+    #responsible for calculating the total investment/ annual cashflow
+    #/and the final total roi with the last given values
+    def roi(self):
+        print('\nWhat was the cost of the down payment placed on the house')
+        down_payment = self.money_confirm()
+
+        print('\nWhat were the cloing costs of the house')
+        closing_cost = self.money_confirm()
+
+        print('\nWhat was the rehab budget for the house')
+        rehab_budget = self.money_confirm()
+
+        total_investment = down_payment + closing_cost + rehab_budget
+        print(f'\nThis is the total investment of the home: {total_investment}.')
+
+        annual_cashflow = self.cash_flow * 12
+        print(f'\nThis is the annual cash flow of the home: {annual_cashflow}')
+
+        total_roi = (annual_cashflow / total_investment) * 100
+        print(f'\nThe total Return On Investment for the current property is {round(total_roi, 2)}%.')
+
+        return
+
+
+    #responsible for actually going through the class methods and
+    #running them for the user.
     def runROI(self):
         self.income()
         self.expenses()
         self.cash_flow()
+        self.roi()
 
 calc = returnOnInvestment()
 

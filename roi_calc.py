@@ -85,7 +85,10 @@ class returnOnInvestment():
             print('\nHow much do you spend on all of the above collectively')
             utilities_amt = self.money_confirm()
         else:
-            pass
+            # v Video said if landlord pays for utilities 5% of the income goes towards the vacancy.
+            vacancy = self.ren_income * 0.05
+            print(f'\nSince the landlord pays for utilities, 5% of your rental income will be used as vacancy.\nVacancy cost given the amount ${self.ren_income} is: ${vacancy}.')
+            
 
         print('\nHow much do you set aside for repair fees')
         repair_fees = self.money_confirm()
@@ -116,7 +119,7 @@ class returnOnInvestment():
             return self.expenses
 
         elif pays_utilities == False and has_manager and self.pay_w_cash:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + manager_amt
+            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + manager_amt + vacancy
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
@@ -131,12 +134,12 @@ class returnOnInvestment():
             return self.expenses
         
         elif pays_utilities == False and has_manager == False and self.pay_w_cash:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend
+            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + vacancy
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
         elif pays_utilities == False and has_manager and self.pay_w_cash == False:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + manager_amt + mortgage
+            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + manager_amt + mortgage + vacancy
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
@@ -146,7 +149,7 @@ class returnOnInvestment():
             return self.expenses
         
         elif pays_utilities == False and has_manager == False and self.pay_w_cash == False:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + mortgage
+            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + mortgage + vacancy
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
 

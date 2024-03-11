@@ -194,6 +194,7 @@ class returnOnInvestment():
         annual_cashflow = self.cash_flow * 12
         print(f'\nThis is the annual cash flow of the home: ${annual_cashflow}')
 
+        # v Displays the summary of everything input into the calulator v
         print(f'\nPay with cash: {self.pay_w_cash}\nRental Income: ${self.ren_income}\nIs duplex: {self.is_duplex}\nHas Other Income: {self.have_other_inc}\nOther income amount: ${self.other_inc_amt}',
               f'\nProperty Tax: ${self.p_tax}\nInsurance Amount: ${self.insurance_amt}\nPays Utilites: {self.pays_utilities}\nUtilities Amount: ${self.utilities_amt}\nVacancy Amount: ${self.vacancy}',
               f'\nRepair Fees: ${self.repair_fees}\nCapital Expenditure: ${self.cap_expend}\nHas Property Manager: {self.has_manager}\nManager Cost: ${self.manager_amt}\nMortgage: ${self.mortgage}',

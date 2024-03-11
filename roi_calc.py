@@ -1,7 +1,21 @@
 class returnOnInvestment():
-    def __init__(self,pay_w_cash = None, ren_income = 0, income = 0, expenses = 0, cash_flow = 0):
+    def __init__(self,pay_w_cash = False, ren_income = 0, utilities_amt = 0, other_inc_amt = 0, is_duplex = False ,have_other_inc = False, p_tax = 0, insurance_amt = 0, pays_utilities = False, 
+                vacancy = 0 ,repair_fees = 0, cap_expend = 0, has_manager = False, manager_amt = 0, mortgage = 0, income = 0, expenses = 0, cash_flow = 0):
+        self.utilities_amt = utilities_amt
+        self.other_inc_amt = other_inc_amt
+        self.vacancy = vacancy
         self.pay_w_cash = pay_w_cash
         self.ren_income = ren_income
+        self.is_duplex = is_duplex
+        self.have_other_inc = have_other_inc
+        self.p_tax = p_tax
+        self.insurance_amt = insurance_amt
+        self.pays_utilities = pays_utilities
+        self.repair_fees = repair_fees
+        self.cap_expend = cap_expend 
+        self.has_manager = has_manager
+        self.manager_amt = manager_amt
+        self.mortgage = mortgage
 
     #handles the y/n confirmations
     def yn_confirm(self):
@@ -38,29 +52,29 @@ class returnOnInvestment():
         self.ren_income = self.money_confirm()
 
         print('\nIs your current rental property a duplex ("y" for yes, "n" for no)')
-        is_duplex = self.yn_confirm()
+        self.is_duplex = self.yn_confirm()
 
         print('\nDo you have other incomes? (laundry, storage, misc...): ')
-        have_other_inc = self.yn_confirm()
-        if have_other_inc == True:
+        self.have_other_inc = self.yn_confirm()
+        if self.have_other_inc == True:
             print('\nWhat is the total amount of other income')
-            other_inc_amt = self.money_confirm()
+            self.other_inc_amt = self.money_confirm()
         else:
             pass
 
         # v Calculates the sum of the total monthly income given the above inputs v
-        if is_duplex == True and have_other_inc == True:   #rental, w duplex, other incomes
-            self.income = (self.ren_income * 2) + other_inc_amt
+        if self.is_duplex == True and self.have_other_inc == True:   #rental, w duplex, other incomes
+            self.income = (self.ren_income * 2) + self.other_inc_amt
             print(f'\nYour total Income is ${round(self.income, 2)}.')
             return self.income, self.ren_income, self.pay_w_cash
         
-        elif is_duplex == True and have_other_inc == False:    #rental, w duplex, no other incomes
+        elif self.is_duplex == True and self.have_other_inc == False:    #rental, w duplex, no other incomes
             self.income = (self.ren_income * 2)
             print(f'\nYour total Income is ${round(self.income, 2)}.')
             return self.income, self.ren_income, self.pay_w_cash
         
-        elif is_duplex == False and have_other_inc == True:     #rental, no duplex, other incomes
-            self.income = self.ren_income + other_inc_amt
+        elif self.is_duplex == False and self.have_other_inc == True:     #rental, no duplex, other incomes
+            self.income = self.ren_income + self.other_inc_amt
             print(f'\nYour total Income is ${round(self.income, 2)}.')
             return self.income, self.ren_income, self.pay_w_cash
         
@@ -74,33 +88,34 @@ class returnOnInvestment():
     def expenses(self):
         # asks/skips for information depending on if its needed
         print('\nWhat is your current property tax')
-        p_tax = self.money_confirm()
+        self.p_tax = self.money_confirm()
 
         print('\nHow much do you spend on house insurance')
-        insurance_amt = self.money_confirm()
+        self.insurance_amt = self.money_confirm()
 
         print('\nDo you pay for your utilities, HOA fees, lawn/snow care fees, vacancy fees')
-        pays_utilities = self.yn_confirm()
-        if pays_utilities:
+        self.pays_utilities = self.yn_confirm()
+        if self.pays_utilities:
             print('\nHow much do you spend on all of the above collectively')
-            utilities_amt = self.money_confirm()
+            self.utilities_amt = self.money_confirm()
         else:
             # v Video said if landlord pays for utilities 5% of the income goes towards the vacancy.
-            vacancy = self.ren_income * 0.05
-            print(f'\nSince the landlord pays for utilities, 5% of your rental income will be used as vacancy.\nVacancy cost given the amount ${self.ren_income} is: ${vacancy}.')
+            self.vacancy = self.ren_income * 0.05
+            print(f'\nSince the landlord pays for utilities, 5% of your rental income will be used as vacancy.\nVacancy cost given the amount ${self.ren_income} is: ${self.vacancy}.')
+            self.ren_income = self.ren_income - self.vacancy
             
 
         print('\nHow much do you set aside for repair fees')
-        repair_fees = self.money_confirm()
+        self.repair_fees = self.money_confirm()
 
         print('\nHow much do you set aside for capital expenditures')
-        cap_expend = self.money_confirm()
+        self.cap_expend = self.money_confirm()
 
         print('\nDo you have a property manager')
-        has_manager = self.yn_confirm()
-        if has_manager:
+        self.has_manager = self.yn_confirm()
+        if self.has_manager:
             print('\nHow much do you spend on your property manager')
-            manager_amt = self.money_confirm()
+            self.manager_amt = self.money_confirm()
         else:
             pass
 
@@ -108,48 +123,48 @@ class returnOnInvestment():
             print('\nSince you pay with cash you don\'t need to pay mortgage')
         else:
             print('\nHow much do you spend on your mortgage')
-            mortgage = self.money_confirm()
+            self.mortgage = self.money_confirm()
             
 
 
         # v Should be all use cases given the above information
-        if pays_utilities and has_manager and self.pay_w_cash:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + utilities_amt + manager_amt
+        if self.pays_utilities and self.has_manager and self.pay_w_cash:
+            self.expenses = self.p_tax + self.insurance_amt + self.repair_fees + self.cap_expend + self.utilities_amt + self.manager_amt
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
 
-        elif pays_utilities == False and has_manager and self.pay_w_cash:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + manager_amt + vacancy
+        elif self.pays_utilities == False and self.has_manager and self.pay_w_cash:
+            self.expenses = self.p_tax + self.insurance_amt + self.repair_fees + self.cap_expend + self.manager_amt + self.vacancy
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
-        elif pays_utilities and has_manager == False and self.pay_w_cash:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + utilities_amt
+        elif self.pays_utilities and self.has_manager == False and self.pay_w_cash:
+            self.expenses = self.p_tax + self.insurance_amt + self.repair_fees + self.cap_expend + self.utilities_amt
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
-        elif pays_utilities and has_manager and self.pay_w_cash == False:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + utilities_amt + manager_amt + mortgage
+        elif self.pays_utilities and self.has_manager and self.pay_w_cash == False:
+            self.expenses = self.p_tax + self.insurance_amt + self.repair_fees + self.cap_expend + self.utilities_amt + self.manager_amt + self.mortgage
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
-        elif pays_utilities == False and has_manager == False and self.pay_w_cash:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + vacancy
+        elif self.pays_utilities == False and self.has_manager == False and self.pay_w_cash:
+            self.expenses = self.p_tax + self.insurance_amt + self.repair_fees + self.cap_expend + self.vacancy
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
-        elif pays_utilities == False and has_manager and self.pay_w_cash == False:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + manager_amt + mortgage + vacancy
+        elif self.pays_utilities == False and self.has_manager and self.pay_w_cash == False:
+            self.expenses = self.p_tax + self.insurance_amt + self.repair_fees + self.cap_expend + self.manager_amt + self.mortgage + self.vacancy
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
-        elif pays_utilities and has_manager == False and self.pay_w_cash == False:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + utilities_amt + mortgage
+        elif self.pays_utilities and self.has_manager == False and self.pay_w_cash == False:
+            self.expenses = self.p_tax + self.insurance_amt + self.repair_fees + self.cap_expend + self.utilities_amt + self.mortgage
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
         
-        elif pays_utilities == False and has_manager == False and self.pay_w_cash == False:
-            self.expenses = p_tax + insurance_amt + repair_fees + cap_expend + mortgage + vacancy
+        elif self.pays_utilities == False and self.has_manager == False and self.pay_w_cash == False:
+            self.expenses = self.p_tax + self.insurance_amt + self.repair_fees + self.cap_expend + self.mortgage + self.vacancy
             print(f'\nThis is the total amount of expenditures: ${self.expenses}')
             return self.expenses
 
@@ -179,8 +194,13 @@ class returnOnInvestment():
         annual_cashflow = self.cash_flow * 12
         print(f'\nThis is the annual cash flow of the home: ${annual_cashflow}')
 
+        print(f'\nPay with cash: {self.pay_w_cash}\nRental Income: ${self.ren_income}\nIs duplex: {self.is_duplex}\nHas Other Income: {self.have_other_inc}\nOther income amount: ${self.other_inc_amt}',
+              f'\nProperty Tax: ${self.p_tax}\nInsurance Amount: ${self.insurance_amt}\nPays Utilites: {self.pays_utilities}\nUtilities Amount: ${self.utilities_amt}\nVacancy Amount: ${self.vacancy}',
+              f'\nRepair Fees: ${self.repair_fees}\nCapital Expenditure: ${self.cap_expend}\nHas Property Manager: {self.has_manager}\nManager Cost: ${self.manager_amt}\nMortgage: ${self.mortgage}',
+              f'\nDown Payment: ${down_payment}\nClosing Cost: ${closing_cost}\nRehab Budget: {rehab_budget}\n{"~" * 40}')
+
         total_roi = (annual_cashflow / total_investment) * 100
-        print(f'\nThe total Return On Investment for the current property is {round(total_roi, 2)}%.')
+        print(f'The total Return On Investment for the current property is {round(total_roi, 2)}%.')
 
         return
 
